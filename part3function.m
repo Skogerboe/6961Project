@@ -1,5 +1,7 @@
 function [ber_bench1, bler_bench1, ber_bench2, bler_bench2, ber_bench3, bler_bench3] = part3function(z1, z2, z3)
 
+% addpath(genpath('./'));
+
 load("OFDM_PILOT.mat"); % Load all necessary Matlab files
 load("CODE.mat");
 load("INTRLVR.mat");

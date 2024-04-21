@@ -1,5 +1,7 @@
 function [Z_all] = part2function(Data_rece, a_est)
 
+% addpath(genpath('./'));
+
 K = 2048;
 L = 200;
 Fc = 24000;
