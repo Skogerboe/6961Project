@@ -162,7 +162,8 @@ epsilon_1 = mod(pnmin, 41)*0.1-2.1;
 %     end
 % end
 
-Z_1 = Z_1(round(n_0_1/Lambda):end, 1); % Obtain frequency domain data here
+% Z_1 = Z_1(round(n_0_1/Lambda):end, 1); % Obtain frequency domain data here
+% Z_1 = Z_1(round(n_0_1):end, 1); % Obtain frequency domain data here
 
 Z_all = zeros(zp_down, W-3);
 Z_all(1:length(Z_1), 1) = Z_1(1:length(Z_1), 1);
@@ -177,7 +178,7 @@ epsilon_all(1, 1) = epsilon_1;
 n_0_w_1 = n_0_1;
 Z_w = zeros(zp_down,1);
 
-for w = 1:20
+for w = 1:21
     P_NULL = zeros(3977, 1);    % length n_0 x epsilon, 97x41
     count = 1;
     z_count = z_count+1;
@@ -209,8 +210,8 @@ for w = 1:20
     n_0_w = n_0_w_1+zp_up+floor(pnwmin/41)-2*Lambda;
     epsilon_w = mod(pnwmin, 41)*0.1-2.1;
 
-    %Z_w = Z_w(round(n_0_w/Lambda):end, 1); % Obtain frequency domain data here
-    Z_all(1:end, z_count) = Z_w(1:end, 1);
+    Z_w = Y_BB_no_delay((n_0_w+(1:Lambda:zp_down*Lambda))).*exp(-1i*2*pi*epsilon_w*(n_0_w+(1:Lambda:zp_down*Lambda))*Ts); % Obtain frequency domain data here
+    Z_all(1:end, z_count) = fft_matrix*transpose(Z_w);
     n_all(z_count, 1) = n_0_w;
     epsilon_all(z_count, 1) = epsilon_w;
     n_0_w_1 = n_0_w;
