@@ -89,7 +89,7 @@ for k = 1:1:length(ofdm_map) % Get data subcarriers/indices
         dcount = dcount + 1;
     end
 end
-Task 1b
+%Task 1b
 twosigsquare1 = 1/KN * sum(abs(zn1).^2); % Noise Varience Estimation 1
 
 x1 = 1/sqrt(2)+1i*1/sqrt(2);% QPSK Symbols
@@ -117,7 +117,7 @@ for w = 1:W
         LR(w, 2*n) = Lb2_zk(n, w);
     end
 end
-Task 1c
+%Task 1c
 Name = './5G_LDPC_M10_N20_Z142_Q2_nonVer.txt'; % One tap equalizer
 LPDC_Decoder = open('5G_LDPC_M10_N20_Z142_Q2_nonVer.txt');
 [address, LPDC_INFOLEN] = ldpc_mex_initial_CAPI([1420, 2840, 2], Name);
@@ -141,7 +141,7 @@ end
 bec_bench1 = sum(bec(1, 2:end));
 ber_bench1 = sum(ber(1, 2:end))/(W-1);
 bler_bench1 = bler/(W-1);
-Task 2
+%Task 2
 %%% 2 Hydrophones %%%
 
 twosigsquare2 = 1/KN * sum(abs(zn2).^2); % Noise Varience Estimation 2

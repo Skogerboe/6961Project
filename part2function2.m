@@ -1,6 +1,9 @@
 function [Z_all] = part2function(Data_rece, a_est)
 
 % addpath(genpath('./'));
+load("itc_1007_compfilter.mat");
+load("pilot_signal_for_synchronization.mat");
+load("ofdm_map.mat");
 
 K = 2048;
 L = 200;
@@ -24,7 +27,7 @@ c = 1500;
 % Data_rece = rece_data_ofdm_test; %load benchmark_rece_data_174623_1472.mat
 %ypb = zeros(length(y_in), 1);
 y_pb = bandpass(Data_rece, [-4000+Fc, 4000+Fc], Sampler);
-plot(y_pb);
+%plot(y_pb);
 
 %%% Step 2: Estimate a
 T_tx = 8269.52; %In ms
@@ -45,7 +48,7 @@ Lp = 24;
 N = Lp*Ls-1;
 h = Ls*fir1(N, 1/Ms, kaiser(N+1, 7.8562));
 Ytilda_pb_re = upfirdn(y_pb_re, h, Ls, Ms);
-plot(Ytilda_pb_re);
+%plot(Ytilda_pb_re);
 %freqz(Ytilda_pb_re, 1);
 
 %%% Step 5: Synchronization
@@ -53,14 +56,14 @@ pilot = OFDM_data_pre_old; %load pilot_signal_for_syncronizaation.mat
 %plot(pilot);
 
 correlate = xcorr(Ytilda_pb_re, pilot); % Correlation with pilot signal
-plot(correlate);
+%plot(correlate);
 
 i = max(correlate); % Finds max value index for n_0
 j = find(correlate == i);
 n_0 = j - length(Ytilda_pb_re);
 
 Ytilda_n0 = Ytilda_pb_re(n_0:end);    % Truncates signal to start at n_0
-plot(Ytilda_n0)
+%plot(Ytilda_n0)
 
 %%% Step 6 Convolution for PB -> BB
 Ytilda_conv = conv(Ytilda_n0, h_comp); % Convolution with 101 sample vector
@@ -94,7 +97,7 @@ Y_BB_filtered = conv(Y_BB, Rn); % Same as part 1 Step 5
 plot(abs(Y_BB_filtered))    % Checking signal after filtering
 title("Filtered");
 plot(real(fft(Y_BB)))
-delay_os = length(Y_BB_filtered)-length(Y_BB)   % Delay obtained by difference of signal lengths
+delay_os = length(Y_BB_filtered)-length(Y_BB);   % Delay obtained by difference of signal lengths
 Y_BB_no_delay = Y_BB_filtered(delay_os/2+1:length(Y_BB_filtered)-delay_os/2);   % Cuts out delay
 plot(abs(Y_BB_no_delay));   % Should be the same length as Y_BB
 title("Delay Cut-off");
